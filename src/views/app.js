@@ -7,7 +7,7 @@ var AppView = Backbone.View.extend({
     this.render();
 
     this.listenTo(this.searchView, 'click', function() {
-      this.videos.search('dog');
+      this.videos.search(this.searchView.input);
     }, this);
 
     this.listenTo(this.videoListView, 'select', function() {
@@ -28,6 +28,7 @@ var AppView = Backbone.View.extend({
     //   console.log("success"); // >> length: 2
     // });
     this.videoListView = new VideoListView({collection: this.videos});
+    this.videoListView.render();
 
     this.searchView = new SearchView();
     // debugger;

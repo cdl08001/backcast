@@ -12,6 +12,7 @@ var SearchView = Backbone.View.extend({
   },
 
   handleButtonClick: function() {
+    this.input = this.$('.form-control')[0].value;
     this.trigger('click');
     console.log('button has been clicked');
     //This works

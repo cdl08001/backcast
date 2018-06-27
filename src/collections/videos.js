@@ -7,7 +7,14 @@ var Videos = Backbone.Collection.extend({
     return data.items;
   },
 
+  updateCollection: function(data) {
+    this.reset();
+    this.add(data.items);
+    console.log('success!', this.models);
+  },
+
   search: function(query) {
+    let self = this;
     $.ajax({
       url: 'https://www.googleapis.com/youtube/v3/search',
       type: 'GET',
@@ -20,7 +27,8 @@ var Videos = Backbone.Collection.extend({
         'type': 'video',
         'videoEmbeddable': 'true'},
       success: function (data) {
-        console.log(data);
+        self.updateCollection(data);
+        self.trigger('sync');
       }
     });
   }
