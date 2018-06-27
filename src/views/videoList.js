@@ -1,9 +1,11 @@
 var VideoListView = Backbone.View.extend({
   
   initialize: function() {
-    // this.collection.on('sync', this.render, this); 
+    // this.listenTo(this.collection, 'select', this); 
     this.render(); 
   },
+    
+  selectedVideo: undefined,
 
   render: function() {
 
@@ -14,7 +16,10 @@ var VideoListView = Backbone.View.extend({
     // this.$el.html(this.template());
   
     this.collection.each(function(videoModel) {
-
+      this.listenTo(videoModel, 'select', function() {
+        this.selectedVideo = videoModel;
+        this.trigger('select', this);
+      });
       var item = new VideoListEntryView({model: videoModel});
       this.$el.append(item.$el);
     }, this);

@@ -1,12 +1,24 @@
 var SearchView = Backbone.View.extend({
   
-  initialization: function() {
+  initialize: function() {
     this.render();
+    // this.$('.btn').on('click', function() {
+    //   console.log('button has been clicked');
+    // });
+  },
+
+  events: {
+    'click .btn': 'handleButtonClick'
+  },
+
+  handleButtonClick: function() {
+    this.trigger('click');
+    console.log('button has been clicked');
+    //This works
   },
 
   render: function() {
     this.$el.html(this.template());
-    debugger;
     return this;
   },
 

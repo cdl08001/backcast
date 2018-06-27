@@ -3,15 +3,35 @@ var AppView = Backbone.View.extend({
   el: '#app',
 
   initialize: function() {
+
+    this.render();
+
+    this.listenTo(this.searchView, 'click', function() {
+      this.videos.search('dog');
+    }, this);
+
+    this.listenTo(this.videoListView, 'select', function() {
+      this.videoPlayerView = new VideoPlayerView({model: this.videoListView.selectedVideo});
+      this.$('.player').children().detach();
+      this.$('.player').append(this.videoPlayerView.$el);
+    }, this);
+
+    $('body').append();
+  },
+
+
+  render: function() {
+    this.$el.html(this.template()); //sets up page template
+
     this.videos = new Videos(window.exampleVideoData);
     // this.videos.fetch().then(function() {
     //   console.log("success"); // >> length: 2
     // });
     this.videoListView = new VideoListView({collection: this.videos});
-    this.searchView = new SearchView();
-    this.videoPlayerView = new VideoPlayerView();
 
-    this.render();
+    this.searchView = new SearchView();
+    // debugger;
+    this.videoPlayerView = new VideoPlayerView({model: this.videos.models[0]});
 
     this.$('.list').children().detach();
     this.$('.list').append(this.videoListView.$el);
@@ -22,12 +42,6 @@ var AppView = Backbone.View.extend({
     this.$('.player').children().detach();
     this.$('.player').append(this.videoPlayerView.$el);
 
-    $('body').append();
-  },
-
-
-  render: function() {
-    this.$el.html(this.template());
     return this;
   },
 
